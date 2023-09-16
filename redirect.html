@@ -3,23 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        // JavaScript code to determine the redirect URL based on the user query parameter
+        // JavaScript code to determine the redirect URL based on the user's position in the cycle
         const googleFormsLinks = [
             'https://docs.google.com/forms/d/e/1FAIpQLSec8FtHsDbEh9TIB5Kq4zFDAK-9rKuCC8CFMHvN_hF5JUda-g/viewform?usp=sf_link',
             'https://docs.google.com/forms/d/e/1FAIpQLSfdVbv9PgCTqA67cXmoEo3I0xxyoEj7zvidZR5DP_tqimkxzw/viewform?usp=sf_link',
             'https://docs.google.com/forms/d/e/1FAIpQLSeZoo1e6lQCLnkjFmhXtpXKImEp_bsgp8vHrqAkbzDgwUKOig/viewform?usp=sf_link'
         ];
 
-        // Get the user query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const user = urlParams.get('user');
+        // Function to get the user's position in the cycle from a cookie
+        function getUserPosition() {
+            const userPosition = parseInt(getCookie('userPosition')) || 0;
+            return userPosition;
+        }
 
-        // Determine the index of the Google Forms link to redirect to based on the user parameter
-        const assignedLinkIndex = user % googleFormsLinks.length;
-        window.location.href = googleFormsLinks[assignedLinkIndex];
+        // Function to set the user's position in the cycle in a cookie
+        function setUserPosition(position) {
+            setCookie('userPosition', position, 365); // Cookie expiration set to 1 year
+        }
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+        }
+
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName.trim() === name) {
+                    return cookieValue;
+                }
+            }
+            return null;
+        }
+
+        // Determine the user's position in the cycle and set the next position
+        const userPosition = getUserPosition();
+        const nextPosition = (userPosition + 1) % googleFormsLinks.length;
+        setUserPosition(nextPosition);
+
+        // Redirect to the Google Forms link based on the user's position
+        window.location.href = googleFormsLinks[userPosition];
     </script>
 </head>
 <body>
-    <p>If you are not redirected, <a href="https://Helplive6613.github.io/Experiment23/redirect.html?user=1">click here</a>.</p>
+    <p>If you are not redirected, <a href="https://Helplive6613.github.io/Experiment23/redirect.html">click here</a>.</p>
 </body>
 </html>
