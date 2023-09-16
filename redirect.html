@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // JavaScript code to determine the redirect URL based on a unique identifier
+        const googleFormsLinks = [
+            'https://docs.google.com/forms/d/e/1FAIpQLSec8FtHsDbEh9TIB5Kq4zFDAK-9rKuCC8CFMHvN_hF5JUda-g/viewform?usp=sf_link',
+            'https://docs.google.com/forms/d/e/1FAIpQLSfdVbv9PgCTqA67cXmoEo3I0xxyoEj7zvidZR5DP_tqimkxzw/viewform?usp=sf_link',
+            'https://docs.google.com/forms/d/e/1FAIpQLSeZoo1e6lQCLnkjFmhXtpXKImEp_bsgp8vHrqAkbzDgwUKOig/viewform?usp=sf_link'
+        ];
+
+        // Generate a unique identifier based on the current time and user agent
+        const uniqueIdentifier = (new Date().getTime() + navigator.userAgent).hashCode();
+
+        // Determine the index of the Google Forms link to redirect to
+        const assignedLinkIndex = uniqueIdentifier % googleFormsLinks.length;
+        window.location.href = googleFormsLinks[assignedLinkIndex];
+    </script>
+</head>
+<body>
+    <p>If you are not redirected, <a href="https://Helplive6613.github.io/Experiment23/redirect.html">click here</a>.</p>
+</body>
+</html>
